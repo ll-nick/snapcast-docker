@@ -1,13 +1,16 @@
 name: Docker
 on:
   push:
-    branches: ['master']
+    paths:
+      - '.version'
 jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+      - name: Set version environment variable
+        run: echo "::set-env name=DOCKER_IMAGE_VERSION::$(cat .version)"
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
@@ -24,12 +27,12 @@ jobs:
         with:
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
-          tags: nickll/snapserver:latest
+          tags: nickll/snapserver:latest,nickll/snapserver:${{ env.DOCKER_IMAGE_VERSION }}
           target: server
       - name: Build and push client
         uses: docker/build-push-action@v3
         with:
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
-          tags: nickll/snapclient:latest
+          tags: nickll/snapclient:latest,nickll/snapclient:${{ env.DOCKER_IMAGE_VERSION }}
           target: client
