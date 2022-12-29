@@ -10,7 +10,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Set version environment variable
-        run: echo "::set-env name=DOCKER_IMAGE_VERSION::$(cat .version)"
+        run: |
+          DOCKER_IMAGE_VERSION=$(cat .version)
+          echo "DOCKER_IMAGE_VERSION is set to $DOCKER_IMAGE_VERSION"
+        env:
+          DOCKER_IMAGE_VERSION: ${{ env.DOCKER_IMAGE_VERSION }}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
