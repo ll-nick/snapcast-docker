@@ -10,11 +10,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Set version environment variable
-        run: |
-          DOCKER_IMAGE_VERSION=$(cat .version)
-          echo "DOCKER_IMAGE_VERSION is set to $DOCKER_IMAGE_VERSION"
-        env:
-          DOCKER_IMAGE_VERSION: ${{ env.DOCKER_IMAGE_VERSION }}
+        run: echo "DOCKER_IMAGE_VERSION=$(cat .version)" >> $GITHUB_OUTPUT
+        id: set-version
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
@@ -31,12 +28,12 @@ jobs:
         with:
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
-          tags: nickll/snapserver:latest,nickll/snapserver:${{ env.DOCKER_IMAGE_VERSION }}
+          tags: nickll/snapserver:latest,nickll/snapserver:${{ steps.set-version.outputs.DOCKER_IMAGE_VERSION }}
           target: server
       - name: Build and push client
         uses: docker/build-push-action@v3
         with:
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
-          tags: nickll/snapclient:latest,nickll/snapclient:${{ env.DOCKER_IMAGE_VERSION }}
+          tags: nickll/snapclient:latest,nickll/snapclient:${{ steps.set-version.outputs.DOCKER_IMAGE_VERSION }}
           target: client
