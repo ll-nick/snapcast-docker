@@ -1,0 +1,25 @@
+name: Get latest Snapcast release version
+on:
+  schedule:
+    - cron:  '*/5 * * * *'
+jobs:
+  get-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.REPO_SCOPED_TOKEN }}
+      - name: Fetch release version
+        run: |
+          curl -sL https://api.github.com/repos/badaix/snapcast/releases/latest | \
+          jq -r ".tag_name" > .version
+      - name: Check for modified files
+        id: git-check
+        run: echo ::set-output name=modified::$([ -z "`git status --porcelain`" ] && echo "false" || echo "true")
+      - name: Commit latest release version
+        if: steps.git-check.outputs.modified == 'true'
+        run: |
+          git config --global user.name 'Github Action'
+          git config --global user.email 'github-action@github.com'
+          git commit -am "New Snapcast release version"
+          git push
