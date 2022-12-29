@@ -1,6 +1,6 @@
 name: Get latest Snapcast release version
 on:
-  workflow_dispatch
+  workflow_dispatch:
   schedule:
     - cron:  '0 5 * * *'
 jobs:
