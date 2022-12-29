@@ -22,14 +22,14 @@ jobs:
       - name: Build and push server
         uses: docker/build-push-action@v3
         with:
-          platform: linux/amd64,linux/arm64,linux/arm/v7
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: nickll/snapserver:latest
           target: server
       - name: Build and push client
         uses: docker/build-push-action@v3
         with:
-          platform: linux/amd64,linux/arm64,linux/arm/v7
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: nickll/snapclient:latest
           target: client
