@@ -40,7 +40,8 @@ RUN apk add --no-cache \
 FROM base as server
 COPY --from=build --chown=root:root /snapcast/server/snapserver /usr/bin/snapserver
 COPY --from=build --chown=root:root /snapcast/server/snapserver.1 /usr/share/man/man1/snapserver.1
-COPY --from=build --chown=root:root /snapcast/server/etc/index.html /snapcast/server/etc/snapweb /usr/share/snapserver/
+COPY --from=build --chown=root:root /snapcast/server/etc/index.html /usr/share/snapserver/index.html
+COPY --from=build --chown=root:root /snapcast/server/etc/snapweb /usr/share/snapserver/
 
 # Run server
 ENTRYPOINT ["snapserver"]
