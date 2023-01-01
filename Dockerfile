@@ -22,7 +22,7 @@ RUN git clone --depth 1 https://github.com/badaix/snapcast.git && \
     cd snapcast && \
     make && \
     strip server/snapserver client/snapclient && \
-    chmod -R 644 etc/snapweb
+    chmod -R 644 server/etc/snapweb
 
 FROM alpine as base
 
