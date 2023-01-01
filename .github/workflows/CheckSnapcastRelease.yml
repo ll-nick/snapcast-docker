@@ -12,7 +12,7 @@ jobs:
           token: ${{ secrets.REPO_SCOPED_TOKEN }}
       - name: Fetch release version
         run: |
-          API_RESPONSE=$(curl -sL https://api.github.com/repos/badaix/snapcast/releases/latest)
+          API_RESPONSE=$(curl -sL --url https://api.github.com/repos/badaix/snapcast/releases/latest -- header 'authorization: Bearer ${{ secrets.REPO_SCOPED_TOKEN }}')
           echo $API_RESPONSE
           echo $API_RESPONSE | jq -r ".tag_name" | tee .version
       - name: Failsafe if .version contains "null"
@@ -22,7 +22,7 @@ jobs:
           fi
       - name: Check for modified files
         id: git-check
-        run: echo modified=$([ -z "`git status --porcelain`" ] && echo "false" || echo "true") >> $GITHUB_OUTPUT
+        run: echo modified=$([ -z "`git status .version --porcelain`" ] && echo "false" || echo "true") | tee -a $GITHUB_OUTPUT
       - name: Commit latest release version
         if: steps.git-check.outputs.modified == 'true'
         run: |
