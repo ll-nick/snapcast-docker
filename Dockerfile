@@ -20,12 +20,11 @@ RUN git clone --depth 1 https://github.com/badaix/snapcast.git && \
     LATEST_TAG=$(git -C snapcast describe --tags $(git -C snapcast rev-list --tags --max-count=1)) && \
     git -C snapcast checkout $LATEST_TAG && \
     cd snapcast && \
-    make
+    make && \
+    make installclient && \
+    make installserver
 
 FROM alpine as base
-
-# Copy Snapcast from the build stage
-COPY --from=build /snapcast/server/snapserver /snapcast/client/snapclient /usr/bin/
 
 # Install runtime dependencies
 RUN apk add --no-cache \
@@ -39,12 +38,17 @@ RUN apk add --no-cache \
     soxr
 
 FROM base as server
+COPY --from=build /usr/bin/snapserver /usr/bin/snapserver
+COPY --from=build /usr/share/man/man1/snapserver.1 /usr/share/man/man1/snapserver.1
+COPY --from=build /usr/share/snapserver /usr/share/snapserver
 
 # Run server
 ENTRYPOINT ["snapserver"]
 
 
 FROM base as client
+COPY --from=build /usr/bin/snapclient /usr/bin/snapclient
+COPY --from=build /usr/share/man/man1/snapclient.1 /usr/share/man/man1/snapclient.1
 
 # Run client
 ENTRYPOINT ["snapclient"]
