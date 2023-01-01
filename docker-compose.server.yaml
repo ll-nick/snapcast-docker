@@ -1,0 +1,27 @@
+services:
+  librespot:
+    image: nickll/librespot
+    container_name: librespot
+    restart: unless-stopped
+    depends_on:
+      - snapcast-server
+    environment:
+      SPOTIFY_NAME: "Snapcast"
+      SPOTIFY_USER
+      SPOTIFY_PASSWORD
+      INIT_VOLUME: "100"
+    volumes:
+      - ./librespot:/data
+
+  snapcast-server:
+    image: nickll/snapserver
+    container_name: snapcast-server
+    restart: unless-stopped
+    ports:
+      - 1704:1704
+      - 1705:1705
+      - 1780:1780
+    volumes:
+      - ./librespot:/tmp/librespot
+      - ./config/snapserver.conf:/etc/snapserver.conf
+      - ./config/server.json:/root/.config/snapserver/server.json
