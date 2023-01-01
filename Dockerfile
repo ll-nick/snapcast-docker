@@ -38,17 +38,17 @@ RUN apk add --no-cache \
     soxr
 
 FROM base as server
-COPY --from=build --chown root:root /snapcast/server/snapserver /usr/bin/snapserver
-COPY --from=build --chown root:root /snapcast/server/snapserver.1 /usr/share/man/man1/snapserver.1
-COPY --from=build --chown root:root /snapcast/server/etc/index.php /snapcast/server/etc/snapweb /usr/share/snapserver/
+COPY --from=build --chown=root:root /snapcast/server/snapserver /usr/bin/snapserver
+COPY --from=build --chown=root:root /snapcast/server/snapserver.1 /usr/share/man/man1/snapserver.1
+COPY --from=build --chown=root:root /snapcast/server/etc/index.php /snapcast/server/etc/snapweb /usr/share/snapserver/
 
 # Run server
 ENTRYPOINT ["snapserver"]
 
 
 FROM base as client
-COPY --from=build --chown root:root /snapcast/client/snapclient /usr/bin/snapclient
-COPY --from=build --chown root:root /snapcast/client/snapclient.1 /usr/share/man/man1/snapclient.1
+COPY --from=build --chown=root:root /snapcast/client/snapclient /usr/bin/snapclient
+COPY --from=build --chown=root:root /snapcast/client/snapclient.1 /usr/share/man/man1/snapclient.1
 
 # Run client
 ENTRYPOINT ["snapclient"]
