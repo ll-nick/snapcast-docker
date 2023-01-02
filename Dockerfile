@@ -19,8 +19,11 @@ RUN apk add --no-cache \
 RUN git clone --depth 1 https://github.com/badaix/snapcast.git && \
     LATEST_TAG=$(git -C snapcast describe --tags $(git -C snapcast rev-list --tags --max-count=1)) && \
     git -C snapcast checkout $LATEST_TAG && \
-    cd snapcast && \
+    cd /snapcast && \
     make && \
+    cd /snapcast/server && \
+    make installfiles && \
+    cd /snapcast/client && \
     make installfiles
 
 FROM alpine as base
