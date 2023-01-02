@@ -21,8 +21,7 @@ RUN git clone --depth 1 https://github.com/badaix/snapcast.git && \
     git -C snapcast checkout $LATEST_TAG && \
     cd snapcast && \
     make && \
-    strip server/snapserver client/snapclient && \
-    chmod -R 644 server/etc/snapweb
+    make installfiles
 
 FROM alpine as base
 
@@ -38,16 +37,14 @@ RUN apk add --no-cache \
     soxr
 
 FROM base as server
-COPY --from=build --chown=root:root /snapcast/server/snapserver /usr/bin/snapserver
-COPY --from=build --chown=root:root /snapcast/server/etc/snapweb /usr/share/snapserver/snapweb
-COPY --from=build --chown=root:root /snapcast/server/etc/index.html /usr/share/snapserver/snapweb/index.html
+COPY --from=build /usr/bin/snapserver /usr/bin/snapserver
+COPY --from=build /usr/share/snapserver /usr/share/snapserver
 
 # Run server
 ENTRYPOINT ["snapserver"]
 
-
 FROM base as client
-COPY --from=build --chown=root:root /snapcast/client/snapclient /usr/bin/snapclient
+COPY --from=build /usr/bin/snapclient /usr/bin/snapclient
 
 # Run client
 ENTRYPOINT ["snapclient"]
