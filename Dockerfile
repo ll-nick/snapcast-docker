@@ -16,7 +16,7 @@ RUN apk add --no-cache \
     soxr-dev
 
 # Clone the Snapcast repository and most recent tag
-RUN git clone --depth 1 https://github.com/badaix/snapcast.git && \
+RUN git clone https://github.com/badaix/snapcast.git && \
     LATEST_TAG=$(git -C snapcast describe --tags $(git -C snapcast rev-list --tags --max-count=1)) && \
     git -C snapcast checkout $LATEST_TAG && \
     cd /snapcast && \
@@ -42,12 +42,12 @@ RUN apk add --no-cache \
 FROM base as server
 COPY --from=build /usr/bin/snapserver /usr/bin/snapserver
 COPY --from=build /usr/share/snapserver /usr/share/snapserver
-
-# Run server
 ENTRYPOINT ["snapserver"]
 
 FROM base as client
 COPY --from=build /usr/bin/snapclient /usr/bin/snapclient
-
-# Run client
 ENTRYPOINT ["snapclient"]
+
+FROM client as client-pulseaudio
+RUN apk add --no-cache pulseaudio
+ENTRYPOINT ["snapclient", "--player", "pulse"]

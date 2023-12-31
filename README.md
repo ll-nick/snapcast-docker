@@ -13,7 +13,7 @@ I use alpine as a base image and work with a multistage docker build to keep the
 
 ## Usage
 
-I added example docker-compose files for both a client and a server setup.
+I added example docker-compose files for both a client (alsa and pulseaudio based) and a server setup.
 Adjust to your needs, here I'm using librespot to pipe Spotify to Snapcast.
 Make sure to configure the variables in the .env file.
 

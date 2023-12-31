@@ -1,0 +1,8 @@
+services:
+  snapcast-client:
+    image: nickll/snapclient
+    command: ["-h", "${SERVER_IP_ADRESS}", "--hostID", "${CLIENT_MAC_ADRESS}"]
+    container_name: snapcast-client
+    restart: unless-stopped
+    devices:
+      - /dev/snd
