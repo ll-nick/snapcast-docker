@@ -20,7 +20,7 @@ RUN apk add --no-cache \
 RUN git clone https://github.com/badaix/snapcast.git && \
     LATEST_TAG=$(git -C snapcast describe --tags $(git -C snapcast rev-list --tags --max-count=1)) && \
     git -C snapcast checkout $LATEST_TAG && \
-    git -C snapcast cherry-pick 481f08199ca31c60c9a3475f1064e6b06a503d12 && \
+    git -C snapcast cherry-pick -n 481f08199ca31c60c9a3475f1064e6b06a503d12 && \
     cd /snapcast && \
     make && \
     cd /snapcast/server && \
