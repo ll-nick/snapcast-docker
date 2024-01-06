@@ -35,8 +35,10 @@ RUN apk add --no-cache \
     alsa-lib \
     avahi-libs \
     flac \
+    libgcc \
     libogg \
     libpulse \
+    libstdc++ \
     libvorbis \
     opus \
     soxr
