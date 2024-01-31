@@ -1,8 +1,15 @@
 services:
   snapcast-client:
-    image: nickll/snapclient
+    image: nickll/snapclient-pulseaudio
     command: ["-h", "${SERVER_IP_ADRESS}", "--hostID", "${CLIENT_MAC_ADRESS}"]
     container_name: snapcast-client
     restart: unless-stopped
+    volumes:
+      - "${XDG_RUNTIME_DIR}/pulse/native:${XDG_RUNTIME_DIR}/pulse/native"
+      - "$HOME/.config/pulse/cookie:/root/.config/pulse/cookie"
     devices:
-      - /dev/snd
+      - "/dev/snd:/dev/snd"
+    environment:
+      - "PULSE_SERVER=unix:${XDG_RUNTIME_DIR}/pulse/native"
+    group_add:
+      - audio
