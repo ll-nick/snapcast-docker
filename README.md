@@ -6,8 +6,7 @@ Dockerization of the great Snapcast library
 
 I utilize docker to easily deploy and manage Snapcast across multiple devices.
 So in here you will find the Dockerfile used to create the [nickll/snapclient](https://hub.docker.com/r/nickll/snapclient) and [nickll/snapserver](https://hub.docker.com/r/nickll/snapserver) docker images.
-I use GitHub action to check for new Snapcast releases on a daily basis.
-If there is a new release, a new docker image will be built automatically for armv7, arm64 and amd64 architectures.
+The image will be built once a month for armv7, arm64 and amd64 architectures.
 
 ## Usage
 
