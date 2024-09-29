@@ -9,8 +9,6 @@ So in here you will find the Dockerfile used to create the [nickll/snapclient](h
 I use GitHub action to check for new Snapcast releases on a daily basis.
 If there is a new release, a new docker image will be built automatically for armv7, arm64 and amd64 architectures.
 
-I use alpine as a base image and work with a multistage docker build to keep the image size minimal.
-
 ## Usage
 
 I added example docker-compose files for both a client (alsa and pulseaudio based) and a server setup.
