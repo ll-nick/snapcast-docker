@@ -7,8 +7,6 @@ services:
       - snapcast-server
     environment:
       SPOTIFY_NAME: "Snapcast"
-      SPOTIFY_USER
-      SPOTIFY_PASSWORD
       INIT_VOLUME: "100"
     volumes:
       - ./librespot:/data

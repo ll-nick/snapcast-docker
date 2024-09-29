@@ -13,7 +13,6 @@ If there is a new release, a new docker image will be built automatically for ar
 
 I added example docker-compose files for both a client (alsa and pulseaudio based) and a server setup.
 Adjust to your needs, here I'm using librespot to pipe Spotify to Snapcast.
-Make sure to configure the variables in the .env file.
 
 The snapserver.conf contains the server configuration.
 See [here](https://github.com/badaix/snapcast/blob/master/server/etc/snapserver.conf) for additional documentation on this.
